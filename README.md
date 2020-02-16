@@ -9,7 +9,7 @@ make
 ```
 
 ## Conclusions
-Radix tree implementations have better performance, in memory and time when compared with a trie, for data sets where many intermediate nodes can be compressed into prefix data.  Both radix tree implementations have nearly the same performance.
+Radix tree implementations have better performance, in memory and time when compared with a trie, for data sets where many intermediate nodes can be compressed into prefix data.  If the data cannot be compressed (no common prefixes), then the trie and radix tree are equivalent, with a slight advantage to the trie for simplicity and because it does not create any compressed nodes when building the tree.  Both radix tree implementations, compared here, have nearly the same performance.
 
 For reggie, the the gammazero radixtree implementation has the advantage that it provides a `WalkPath` API that allows retrieval of all values in the path from root to the location of a key.
 
