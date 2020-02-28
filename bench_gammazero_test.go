@@ -104,7 +104,7 @@ func benchmarkWalk(filePath string, b *testing.B) {
 	var count int
 	for n := 0; n < b.N; n++ {
 		count = 0
-		tree.Walk("", func(key string, value interface{}) error {
+		tree.Walk("", func(key radixtree.KeyStringer, value interface{}) error {
 			count++
 			return nil
 		})

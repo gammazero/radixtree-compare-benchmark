@@ -12,51 +12,51 @@ import (
 // Benchmarks
 //
 func BenchmarkPlarWordsPut(b *testing.B) {
-	benchmarkPut(wordsPath, b)
+	benchmarkPlarPut(wordsPath, b)
 }
 
 func BenchmarkPlarWordsGet(b *testing.B) {
-	benchmarkGet(wordsPath, b)
+	benchmarkPlarGet(wordsPath, b)
 }
 
 func BenchmarkPlarWordsWalk(b *testing.B) {
-	benchmarkWalk(wordsPath, b)
+	benchmarkPlarWalk(wordsPath, b)
 }
 
 func BenchmarkPlarWeb2aPut(b *testing.B) {
-	benchmarkPut(web2aPath, b)
+	benchmarkPlarPut(web2aPath, b)
 }
 
 func BenchmarkPlarWeb2aGet(b *testing.B) {
-	benchmarkGet(web2aPath, b)
+	benchmarkPlarGet(web2aPath, b)
 }
 
 func BenchmarkPlarWeb2aWalk(b *testing.B) {
-	benchmarkWalk(web2aPath, b)
+	benchmarkPlarWalk(web2aPath, b)
 }
 
 func BenchmarkPlarUUIDsPut(b *testing.B) {
-	benchmarkPut(uuidsPath, b)
+	benchmarkPlarPut(uuidsPath, b)
 }
 
 func BenchmarkPlarUUIDsGet(b *testing.B) {
-	benchmarkGet(hskPath, b)
+	benchmarkPlarGet(hskPath, b)
 }
 
 func BenchmarkPlarUUIDsWalk(b *testing.B) {
-	benchmarkWalk(hskPath, b)
+	benchmarkPlarWalk(hskPath, b)
 }
 
 func BenchmarkPlarHSKPut(b *testing.B) {
-	benchmarkPut(hskPath, b)
+	benchmarkPlarPut(hskPath, b)
 }
 
 func BenchmarkPlarHSKGet(b *testing.B) {
-	benchmarkGet(hskPath, b)
+	benchmarkPlarGet(hskPath, b)
 }
 
 func BenchmarkPlarHSKWalk(b *testing.B) {
-	benchmarkWalk(hskPath, b)
+	benchmarkPlarWalk(hskPath, b)
 }
 
 func benchmarkPlarPut(filePath string, b *testing.B) {

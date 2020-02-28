@@ -6,12 +6,12 @@ bench: dghubble gammazero plar
 
 dghubble:
 	@echo
-	go test -v -bench=Dghubble -run=xx
+	go test -bench=Dghubble -run=xx
 
 gammazero:
 	@echo
-	go test -v -bench=Gammazero -run=xx
+	go test -bench=Gammazero -run=xx
 
 plar:
 	@echo
-	go test -v -bench=Plar -run=xx
+	go test -bench=Plar -run=xx

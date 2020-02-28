@@ -3,6 +3,8 @@ github.com/dghubble/trie v0.0.0-20200213202610-6823ac12821e h1:8BHI8flAbHSAYTD1J
 github.com/dghubble/trie v0.0.0-20200213202610-6823ac12821e/go.mod h1:xNBeoT4V92/aNvuC3IJ2g59uxuKP4/kzvkpoHrb7v4A=
 github.com/gammazero/radixtree v0.0.0-20200131060520-92a0cdb17edb h1:4rnzXc2NMjfM1p/9LeSZG95qpGzNNRdczUWnwTONOXE=
 github.com/gammazero/radixtree v0.0.0-20200131060520-92a0cdb17edb/go.mod h1:SyDYBp1gUF5zH5kbdIOlBVCemAPoxi3jEDHp0eh4j+w=
+github.com/gammazero/radixtree v0.0.0-20200227230927-06663b9e690e h1:FJY5OPMmqLSM2HEBGsrXjf9AL32zHTE4WQnOadMmHmE=
+github.com/gammazero/radixtree v0.0.0-20200227230927-06663b9e690e/go.mod h1:SyDYBp1gUF5zH5kbdIOlBVCemAPoxi3jEDHp0eh4j+w=
 github.com/plar/go-adaptive-radix-tree v1.0.1 h1:J+2qrXaKWLACw59s8SlTVYYxWjlUr/BlCsfkAzn96/0=
 github.com/plar/go-adaptive-radix-tree v1.0.1/go.mod h1:Ot8d28EII3i7Lv4PSvBlF8ejiD/CtRYDuPsySJbSaK8=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
