@@ -72,3 +72,24 @@ BenchmarkPlarHSKWalk-12      	    9632	    128923 ns/op	      56 B/op	       3 a
 PASS
 ok  	github.com/gammazero/radixtree-compare-benchmark	17.474s
 ```
+
+Generally a radixtree is built once and searched many times.  That makes the `Get` operation the most important; how fast can an item be looked up by its key.  Here are only the `Get` operations from above:
+
+```
+BenchmarkDghubbleWordsGet-12       39   30267061 ns/op   0 B/op   0 allocs/op
+BenchmarkDghubbleWeb2aGet-12       93   13843002 ns/op   0 B/op   0 allocs/op
+BenchmarkDghubbleUUIDsGet-12     4279     284080 ns/op   0 B/op   0 allocs/op
+BenchmarkDghubbleHSKGet-12       4218     286492 ns/op   0 B/op   0 allocs/op
+
+BenchmarkGammazeroWordsGet-12      37   30377617 ns/op   0 B/op   0 allocs/op
+BenchmarkGammazeroWeb2aGet-12     121   10188664 ns/op   0 B/op   0 allocs/op
+BenchmarkGammazeroUUIDsGet-12    3762     307418 ns/op   0 B/op   0 allocs/op
+BenchmarkGammazeroHSKGet-12      3835     306555 ns/op   0 B/op   0 allocs/op
+
+BenchmarkPlarWordsGet-12           36   32499140 ns/op    0 B/op   0 allocs/op
+BenchmarkPlarWeb2aGet-12          100   10355546 ns/op    0 B/op   0 allocs/op
+BenchmarkPlarUUIDsGet-12         1977     616156 ns/op    0 B/op   0 allocs/op
+BenchmarkPlarHSKGet-12           1981     594770 ns/op    0 B/op   0 allocs/op
+```
+
+The deeper the tree (more keys with a common prefix) the better the gammazero radixtree implementation does.  Since the geohashes we use are very hierarchical, the gammazero radixtree implementation is expected to consistently exhibit the best performance. This is the implementation that Reggie uses.
