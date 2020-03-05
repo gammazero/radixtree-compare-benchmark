@@ -92,4 +92,4 @@ BenchmarkPlarUUIDsGet-12         1977     616156 ns/op    0 B/op   0 allocs/op
 BenchmarkPlarHSKGet-12           1981     594770 ns/op    0 B/op   0 allocs/op
 ```
 
-The deeper the tree (more keys with a common prefix) the better the gammazero radixtree implementation does.  Since the geohashes we use are very hierarchical, the gammazero radixtree implementation is expected to consistently exhibit the best performance. This is the implementation that Reggie uses.
+The deeper the tree (more keys with a common prefix) the better the gammazero radixtree implementation does.  If using keys such as geohashes with different accuracy, which are very hierarchical, the gammazero radixtree implementation is expected to consistently exhibit the best performance.
