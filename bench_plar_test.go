@@ -2,7 +2,9 @@ package triebench
 
 import (
 	"bufio"
+	"fmt"
 	"os"
+	"strconv"
 	"testing"
 
 	gart "github.com/plar/go-adaptive-radix-tree"
@@ -57,6 +59,20 @@ func BenchmarkPlarHSKGet(b *testing.B) {
 
 func BenchmarkPlarHSKWalk(b *testing.B) {
 	benchmarkPlarWalk(hskPath, b)
+}
+
+func BenchmarkPlarPutWithExisting(b *testing.B) {
+	tree := gart.New()
+	for i := 0; i < 10000; i++ {
+		tree.Insert([]byte(fmt.Sprintf("somekey%d", i)), true)
+	}
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		_, updated := tree.Insert([]byte(strconv.Itoa(n)), true)
+		if updated {
+			b.Fatal("value was overwritten")
+		}
+	}
 }
 
 func benchmarkPlarPut(filePath string, b *testing.B) {

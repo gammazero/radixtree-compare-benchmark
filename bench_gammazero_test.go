@@ -2,17 +2,19 @@ package triebench
 
 import (
 	"bufio"
+	"fmt"
 	"os"
+	"strconv"
 	"testing"
 
 	"github.com/gammazero/radixtree"
 )
 
 const (
-	wordsPath = "/usr/share/dict/words"
-	web2aPath = "/usr/share/dict/web2a"
-	uuidsPath = "uuids.txt"
-	hskPath   = "hsk_words.txt"
+	wordsPath = "test_data/words"
+	web2aPath = "test_data/web2a"
+	uuidsPath = "test_data/uuids.txt"
+	hskPath   = "test_data/hsk_words.txt"
 )
 
 //
@@ -66,12 +68,25 @@ func BenchmarkGammazeroHSKWalk(b *testing.B) {
 	benchmarkWalk(hskPath, b)
 }
 
+func BenchmarkGammazeroPutWithExisting(b *testing.B) {
+	tree := radixtree.New()
+	for i := 0; i < 10000; i++ {
+		tree.Put(fmt.Sprintf("somekey%d", i), true)
+	}
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		if !tree.Put(strconv.Itoa(n), true) {
+			b.Fatal("value was overwritten")
+		}
+	}
+}
+
 func benchmarkPut(filePath string, b *testing.B) {
 	words := loadWords(filePath)
 	b.ResetTimer()
 	b.ReportAllocs()
 	for n := 0; n < b.N; n++ {
-		tree := new(radixtree.Runes)
+		tree := radixtree.New()
 		for _, w := range words {
 			tree.Put(w, w)
 		}
@@ -80,7 +95,7 @@ func benchmarkPut(filePath string, b *testing.B) {
 
 func benchmarkGet(filePath string, b *testing.B) {
 	words := loadWords(filePath)
-	tree := new(radixtree.Runes)
+	tree := radixtree.New()
 	for _, w := range words {
 		tree.Put(w, w)
 	}
@@ -95,7 +110,7 @@ func benchmarkGet(filePath string, b *testing.B) {
 
 func benchmarkWalk(filePath string, b *testing.B) {
 	words := loadWords(filePath)
-	tree := new(radixtree.Runes)
+	tree := radixtree.New()
 	for _, w := range words {
 		tree.Put(w, w)
 	}
@@ -104,9 +119,9 @@ func benchmarkWalk(filePath string, b *testing.B) {
 	var count int
 	for n := 0; n < b.N; n++ {
 		count = 0
-		tree.Walk("", func(key radixtree.KeyStringer, value interface{}) error {
+		tree.Walk("", func(key string, value interface{}) bool {
 			count++
-			return nil
+			return false
 		})
 	}
 	if count != len(words) {
