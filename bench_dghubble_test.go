@@ -1,6 +1,8 @@
 package triebench
 
 import (
+	"fmt"
+	"strconv"
 	"testing"
 
 	"github.com/dghubble/trie"
@@ -54,7 +56,20 @@ func BenchmarkDghubbleHSKGet(b *testing.B) {
 }
 
 func BenchmarkDghubbleHSKWalk(b *testing.B) {
-	benchmarkWalk(hskPath, b)
+	benchmarkTrieWalk(hskPath, b)
+}
+
+func BenchmarkDghubblePutWithExisting(b *testing.B) {
+	tree := trie.NewRuneTrie()
+	for i := 0; i < 10000; i++ {
+		tree.Put(fmt.Sprintf("somekey%d", i), true)
+	}
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		if !tree.Put(strconv.Itoa(n), true) {
+			b.Fatal("value was overwritten")
+		}
+	}
 }
 
 func benchmarkTriePut(filePath string, b *testing.B) {

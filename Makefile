@@ -2,15 +2,19 @@
 
 all: bench
 
-bench: dghubble gammazero plar
+bench: gammazero dghubble goradix plar
+
+gammazero:
+	@echo
+	go test -bench=Gammazero -run=xx
 
 dghubble:
 	@echo
 	go test -bench=Dghubble -run=xx
 
-gammazero:
+goradix:
 	@echo
-	go test -bench=Gammazero -run=xx
+	go test -bench=GoRadix -run=xx
 
 plar:
 	@echo
