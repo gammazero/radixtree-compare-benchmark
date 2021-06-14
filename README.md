@@ -9,30 +9,32 @@ make
 ```
 
 ## Conclusions
-Radix tree implementations have better performance, in memory and time when compared with a trie, for data sets where many intermediate nodes can be compressed into prefix data.  If the data cannot be compressed (no common prefixes), then the trie and radix tree are equivalent, with a slight advantage to the trie for simplicity and because it does not create any compressed nodes when building the tree.  Both radix tree implementations, compared here, have nearly the same performance.
+Radix tree implementations have better performance, in memory and time when compared with a trie, for data sets where many intermediate nodes can be compressed into prefix data.  If the data cannot be compressed (no common prefixes), then the trie and radix tree are equivalent, with a slight advantage to the trie for simplicity and because it does not create any compressed nodes when building the tree.
 
-For reggie, the the gammazero radixtree implementation has the advantage that it provides a `WalkPath` API that allows retrieval of all values in the path from root to the location of a key.
+Of these implementations, only the gammazero and goradix implementations provide a `WalkPath` API that allows finding all keys from the root down from a given key (not benchmarked here), as well as have zero allocations for all read APIs.
 
 ## Benchmark Results
+See `go.mod` to see which version were used for this comparison.
+
 ```
 go test -bench=Gammazero -run=xx
 goos: linux
 goarch: amd64
 pkg: github.com/gammazero/radixtree-compare-benchmark
 cpu: Intel(R) Core(TM) i7-8565U CPU @ 1.80GHz
-BenchmarkGammazeroWordsPut-8             34    30807080 ns/op    14173312 B/op    430510 allocs/op
-BenchmarkGammazeroWordsGet-8             82    14091831 ns/op           0 B/op         0 allocs/op
-BenchmarkGammazeroWordsWalk-8           835     1380902 ns/op           0 B/op         0 allocs/op
-BenchmarkGammazeroWeb2aPut-8             44    25430734 ns/op    12538598 B/op    352464 allocs/op
-BenchmarkGammazeroWeb2aGet-8             97    11865033 ns/op           0 B/op         0 allocs/op
-BenchmarkGammazeroWeb2aWalk-8           904     1386653 ns/op           0 B/op         0 allocs/op
-BenchmarkGammazeroUUIDsPut-8             21    50514997 ns/op    15961753 B/op    437455 allocs/op
-BenchmarkGammazeroUUIDsGet-8           1414      841096 ns/op           0 B/op         0 allocs/op
-BenchmarkGammazeroUUIDsWalk-8         15552       76027 ns/op           0 B/op         0 allocs/op
-BenchmarkGammazeroHSKPut-8              700     1712411 ns/op      781824 B/op     21603 allocs/op
-BenchmarkGammazeroHSKGet-8             1422      843977 ns/op           0 B/op         0 allocs/op
-BenchmarkGammazeroHSKWalk-8           15753       77257 ns/op           0 B/op         0 allocs/op
-BenchmarkGammazeroPutWithExisting-8 3877678       321.7 ns/op
+BenchmarkGammazeroWordsPut-8             34    30883426 ns/op    14173312 B/op    430510 allocs/op
+BenchmarkGammazeroWordsGet-8             82    14039568 ns/op           0 B/op         0 allocs/op
+BenchmarkGammazeroWordsWalk-8           850     1383104 ns/op           0 B/op         0 allocs/op
+BenchmarkGammazeroWeb2aPut-8             46    25514885 ns/op    12538608 B/op    352464 allocs/op
+BenchmarkGammazeroWeb2aGet-8             97    11734189 ns/op           0 B/op         0 allocs/op
+BenchmarkGammazeroWeb2aWalk-8           914     1665312 ns/op           0 B/op         0 allocs/op
+BenchmarkGammazeroUUIDsPut-8             22    50735858 ns/op    15961761 B/op    437455 allocs/op
+BenchmarkGammazeroUUIDsGet-8           1411      859680 ns/op           0 B/op         0 allocs/op
+BenchmarkGammazeroUUIDsWalk-8         15159       76765 ns/op           0 B/op         0 allocs/op
+BenchmarkGammazeroHSKPut-8              699     1711732 ns/op      781824 B/op     21603 allocs/op
+BenchmarkGammazeroHSKGet-8             1390      839881 ns/op           0 B/op         0 allocs/op
+BenchmarkGammazeroHSKWalk-8           15786       76201 ns/op           0 B/op         0 allocs/op
+BenchmarkGammazeroPutWithExisting-8 4027924       314.1 ns/op
 PASS
 ok      github.com/gammazero/radixtree-compare-benchmark    18.314s
 
@@ -102,14 +104,14 @@ ok  	github.com/gammazero/radixtree-compare-benchmark	17.259s
 
 Generally a radixtree is built once and searched many times.  That makes the `Get` and `Walk` operations the most important; how fast can an item be looked up by its key and how fast can the tree be iterated. Here are only those values from above.
 ```
-BenchmarkGammazeroWordsGet-8             82    14091831 ns/op           0 B/op         0 allocs/op
-BenchmarkGammazeroWordsWalk-8           835     1380902 ns/op           0 B/op         0 allocs/op
-BenchmarkGammazeroWeb2aGet-8             97    11865033 ns/op           0 B/op         0 allocs/op
-BenchmarkGammazeroWeb2aWalk-8           904     1386653 ns/op           0 B/op         0 allocs/op
-BenchmarkGammazeroUUIDsGet-8           1414      841096 ns/op           0 B/op         0 allocs/op
-BenchmarkGammazeroUUIDsWalk-8         15552       76027 ns/op           0 B/op         0 allocs/op
-BenchmarkGammazeroHSKGet-8             1422      843977 ns/op           0 B/op         0 allocs/op
-BenchmarkGammazeroHSKWalk-8           15753       77257 ns/op           0 B/op         0 allocs/op
+BenchmarkGammazeroWordsGet-8             82    14039568 ns/op           0 B/op         0 allocs/op
+BenchmarkGammazeroWordsWalk-8           850     1383104 ns/op           0 B/op         0 allocs/op
+BenchmarkGammazeroWeb2aGet-8             97    11734189 ns/op           0 B/op         0 allocs/op
+BenchmarkGammazeroWeb2aWalk-8           914     1665312 ns/op           0 B/op         0 allocs/op
+BenchmarkGammazeroUUIDsGet-8           1411      859680 ns/op           0 B/op         0 allocs/op
+BenchmarkGammazeroUUIDsWalk-8         15159       76765 ns/op           0 B/op         0 allocs/op
+BenchmarkGammazeroHSKGet-8             1390      839881 ns/op           0 B/op         0 allocs/op
+BenchmarkGammazeroHSKWalk-8           15786       76201 ns/op           0 B/op         0 allocs/op
 
 BenchmarkDghubbleWordsGet-8             100    10723301 ns/op           0 B/op         0 allocs/op
 BenchmarkDghubbleWordsWalk-8             52    21354546 ns/op     2388220 B/op    233697 allocs/op
