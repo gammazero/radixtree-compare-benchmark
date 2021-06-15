@@ -14,8 +14,8 @@ Radix tree implementations have better performance, in memory and time when comp
 Of these implementations, only the gammazero and goradix implementations provide a `WalkPath` API that allows finding all keys from the root down from a given key (not benchmarked here), as well as have zero allocations for all read APIs.
 
 ## Benchmark Results
-See `go.mod` to see which version were used for this comparison.
 
+Implementation: https://github.com/gammazero/radixtree v0.2.1
 ```
 go test -bench=Gammazero -run=xx
 goos: linux
@@ -37,7 +37,10 @@ BenchmarkGammazeroHSKWalk-8           15786       76201 ns/op           0 B/op  
 BenchmarkGammazeroPutWithExisting-8 4027924       314.1 ns/op
 PASS
 ok      github.com/gammazero/radixtree-compare-benchmark    18.314s
+```
 
+Implementation: https://github.com/dghubble/trie
+```
 go test -bench=Dghubble -run=xx
 goos: linux
 goarch: amd64
@@ -58,7 +61,10 @@ BenchmarkDghubbleHSKWalk-8             2451      487336 ns/op       42023 B/op  
 BenchmarkDghubblePutWithExisting-8  4984672       248.0 ns/op
 PASS
 ok      github.com/gammazero/radixtree-compare-benchmark    19.322s
+```
 
+Implementation: https://github.com/armon/go-radix v1.0.0
+```
 go test -bench=GoRadix -run=xx
 goos: linux
 goarch: amd64
@@ -79,7 +85,9 @@ BenchmarkGoRadixHSKWalk-8             15001       79543 ns/op           0 B/op  
 BenchmarkGoRadixPutWithExisting-8   2906332       453.1 ns/op
 PASS
 ok      github.com/gammazero/radixtree-compare-benchmark    19.980s
-
+```
+Implementation: https://github.com/plar/go-adaptive-radix-tree v1.0.1
+```
 go test -bench=Plar -run=xx
 goos: linux
 goarch: amd64
