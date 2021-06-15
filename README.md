@@ -3,7 +3,7 @@ Compare benchmarks of radixtree and trie implementations
 
 ## Run benchmarks
 ```
-git clone git@github.com:ajgillis/radixtree-compare-benchmark.git
+git clone git@github.com:gammazero/radixtree-compare-benchmark.git
 cd radixtree-compare-benchmark
 make
 ```
