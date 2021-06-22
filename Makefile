@@ -2,7 +2,7 @@
 
 all: bench
 
-bench: gammazero dghubble goradix plar
+bench: gammazero goradix dghubble plar
 
 gammazero:
 	@echo

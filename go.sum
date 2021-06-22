@@ -4,8 +4,8 @@ github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/dghubble/trie v0.0.0-20200213202610-6823ac12821e h1:8BHI8flAbHSAYTD1JCmnPZIVTjT29zcdx9Nxon5GLKU=
 github.com/dghubble/trie v0.0.0-20200213202610-6823ac12821e/go.mod h1:xNBeoT4V92/aNvuC3IJ2g59uxuKP4/kzvkpoHrb7v4A=
-github.com/gammazero/radixtree v0.2.1 h1:JDNY+2r1sGQHZ/EIqZODOkZhF2Hc52Ns+oYReP1bMm0=
-github.com/gammazero/radixtree v0.2.1/go.mod h1:VPqqCDZ3YZZxAzUUsIF/ytFBigVWV7JIV1Stld8hri0=
+github.com/gammazero/radixtree v0.2.3 h1:xBLTEnp3JNCFBaev3EZ+Nk35d4mUYXWeYNqyArengtA=
+github.com/gammazero/radixtree v0.2.3/go.mod h1:VPqqCDZ3YZZxAzUUsIF/ytFBigVWV7JIV1Stld8hri0=
 github.com/plar/go-adaptive-radix-tree v1.0.1 h1:J+2qrXaKWLACw59s8SlTVYYxWjlUr/BlCsfkAzn96/0=
 github.com/plar/go-adaptive-radix-tree v1.0.1/go.mod h1:Ot8d28EII3i7Lv4PSvBlF8ejiD/CtRYDuPsySJbSaK8=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=

@@ -67,6 +67,7 @@ func BenchmarkPlarPutWithExisting(b *testing.B) {
 		tree.Insert([]byte(fmt.Sprintf("somekey%d", i)), true)
 	}
 	b.ResetTimer()
+	b.ReportAllocs()
 	for n := 0; n < b.N; n++ {
 		_, updated := tree.Insert([]byte(strconv.Itoa(n)), true)
 		if updated {

@@ -65,6 +65,7 @@ func BenchmarkDghubblePutWithExisting(b *testing.B) {
 		tree.Put(fmt.Sprintf("somekey%d", i), true)
 	}
 	b.ResetTimer()
+	b.ReportAllocs()
 	for n := 0; n < b.N; n++ {
 		if !tree.Put(strconv.Itoa(n), true) {
 			b.Fatal("value was overwritten")

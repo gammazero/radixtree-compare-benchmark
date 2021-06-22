@@ -65,6 +65,7 @@ func BenchmarkGoRadixPutWithExisting(b *testing.B) {
 		tree.Insert(fmt.Sprintf("somekey%d", i), true)
 	}
 	b.ResetTimer()
+	b.ReportAllocs()
 	for n := 0; n < b.N; n++ {
 		_, updated := tree.Insert(strconv.Itoa(n), true)
 		if updated {
