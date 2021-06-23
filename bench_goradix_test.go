@@ -23,6 +23,10 @@ func BenchmarkGoRadixWordsWalk(b *testing.B) {
 	benchmarkGoRadixWalk(wordsPath, b)
 }
 
+func BenchmarkGoRadixWordsWalkPath(b *testing.B) {
+	benchmarkGoRadixWalkPath(wordsPath, b)
+}
+
 func BenchmarkGoRadixWeb2aPut(b *testing.B) {
 	benchmarkGoRadixPut(web2aPath, b)
 }
@@ -35,16 +39,24 @@ func BenchmarkGoRadixWeb2aWalk(b *testing.B) {
 	benchmarkGoRadixWalk(web2aPath, b)
 }
 
+func BenchmarkGoRadixWeb2aWalkPath(b *testing.B) {
+	benchmarkGoRadixWalkPath(web2aPath, b)
+}
+
 func BenchmarkGoRadixUUIDsPut(b *testing.B) {
 	benchmarkGoRadixPut(uuidsPath, b)
 }
 
 func BenchmarkGoRadixUUIDsGet(b *testing.B) {
-	benchmarkGoRadixGet(hskPath, b)
+	benchmarkGoRadixGet(uuidsPath, b)
 }
 
 func BenchmarkGoRadixUUIDsWalk(b *testing.B) {
-	benchmarkGoRadixWalk(hskPath, b)
+	benchmarkGoRadixWalk(uuidsPath, b)
+}
+
+func BenchmarkGoRadixUUIDsWalkPath(b *testing.B) {
+	benchmarkGoRadixWalkPath(uuidsPath, b)
 }
 
 func BenchmarkGoRadixHSKPut(b *testing.B) {
@@ -57,6 +69,10 @@ func BenchmarkGoRadixHSKGet(b *testing.B) {
 
 func BenchmarkGoRadixHSKWalk(b *testing.B) {
 	benchmarkGoRadixWalk(hskPath, b)
+}
+
+func BenchmarkGoRadixHSKWalkPath(b *testing.B) {
+	benchmarkGoRadixWalkPath(hskPath, b)
 }
 
 func BenchmarkGoRadixPutWithExisting(b *testing.B) {
@@ -118,6 +134,29 @@ func benchmarkGoRadixWalk(filePath string, b *testing.B) {
 		})
 	}
 	if count != len(words) {
+		panic("wrong count")
+	}
+}
+
+func benchmarkGoRadixWalkPath(filePath string, b *testing.B) {
+	words := loadWords(filePath)
+	tree := goradix.New()
+	for _, w := range words {
+		tree.Insert(w, w)
+	}
+	b.ResetTimer()
+	b.ReportAllocs()
+	var count int
+	for n := 0; n < b.N; n++ {
+		count = 0
+		for _, w := range words {
+			tree.WalkPath(w, func(key string, value interface{}) bool {
+				count++
+				return false
+			})
+		}
+	}
+	if count < len(words) {
 		panic("wrong count")
 	}
 }

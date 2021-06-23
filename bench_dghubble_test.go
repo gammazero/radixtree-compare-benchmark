@@ -40,11 +40,11 @@ func BenchmarkDghubbleUUIDsPut(b *testing.B) {
 }
 
 func BenchmarkDghubbleUUIDsGet(b *testing.B) {
-	benchmarkTrieGet(hskPath, b)
+	benchmarkTrieGet(uuidsPath, b)
 }
 
 func BenchmarkDghubbleUUIDsWalk(b *testing.B) {
-	benchmarkTrieWalk(hskPath, b)
+	benchmarkTrieWalk(uuidsPath, b)
 }
 
 func BenchmarkDghubbleHSKPut(b *testing.B) {

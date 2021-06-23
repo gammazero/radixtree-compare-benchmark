@@ -32,6 +32,10 @@ func BenchmarkGammazeroWordsWalk(b *testing.B) {
 	benchmarkWalk(wordsPath, b)
 }
 
+func BenchmarkGammazeroWordsWalkPath(b *testing.B) {
+	benchmarkWalkPath(wordsPath, b)
+}
+
 func BenchmarkGammazeroWeb2aPut(b *testing.B) {
 	benchmarkPut(web2aPath, b)
 }
@@ -44,16 +48,24 @@ func BenchmarkGammazeroWeb2aWalk(b *testing.B) {
 	benchmarkWalk(web2aPath, b)
 }
 
+func BenchmarkGammazeroWeb2aWalkPath(b *testing.B) {
+	benchmarkWalkPath(web2aPath, b)
+}
+
 func BenchmarkGammazeroUUIDsPut(b *testing.B) {
 	benchmarkPut(uuidsPath, b)
 }
 
 func BenchmarkGammazeroUUIDsGet(b *testing.B) {
-	benchmarkGet(hskPath, b)
+	benchmarkGet(uuidsPath, b)
 }
 
 func BenchmarkGammazeroUUIDsWalk(b *testing.B) {
-	benchmarkWalk(hskPath, b)
+	benchmarkWalk(uuidsPath, b)
+}
+
+func BenchmarkGammazeroUUIDsWalkPath(b *testing.B) {
+	benchmarkWalkPath(uuidsPath, b)
 }
 
 func BenchmarkGammazeroHSKPut(b *testing.B) {
@@ -66,6 +78,10 @@ func BenchmarkGammazeroHSKGet(b *testing.B) {
 
 func BenchmarkGammazeroHSKWalk(b *testing.B) {
 	benchmarkWalk(hskPath, b)
+}
+
+func BenchmarkGammazeroHSKWalkPath(b *testing.B) {
+	benchmarkWalkPath(hskPath, b)
 }
 
 func BenchmarkGammazeroPutWithExisting(b *testing.B) {
@@ -126,6 +142,32 @@ func benchmarkWalk(filePath string, b *testing.B) {
 		})
 	}
 	if count != len(words) {
+		panic("wrong count")
+	}
+}
+
+func benchmarkWalkPath(filePath string, b *testing.B) {
+	words := loadWords(filePath)
+	if len(words) == 0 {
+		panic("did not load words")
+	}
+	tree := radixtree.New()
+	for _, w := range words {
+		tree.Put(w, w)
+	}
+	b.ResetTimer()
+	b.ReportAllocs()
+	var count int
+	for n := 0; n < b.N; n++ {
+		count = 0
+		for _, w := range words {
+			tree.WalkPath(w, func(key string, value interface{}) bool {
+				count++
+				return false
+			})
+		}
+	}
+	if count < len(words) {
 		panic("wrong count")
 	}
 }

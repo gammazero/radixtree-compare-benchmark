@@ -42,11 +42,11 @@ func BenchmarkPlarUUIDsPut(b *testing.B) {
 }
 
 func BenchmarkPlarUUIDsGet(b *testing.B) {
-	benchmarkPlarGet(hskPath, b)
+	benchmarkPlarGet(uuidsPath, b)
 }
 
 func BenchmarkPlarUUIDsWalk(b *testing.B) {
-	benchmarkPlarWalk(hskPath, b)
+	benchmarkPlarWalk(uuidsPath, b)
 }
 
 func BenchmarkPlarHSKPut(b *testing.B) {
