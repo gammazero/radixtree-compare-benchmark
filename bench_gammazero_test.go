@@ -148,9 +148,6 @@ func benchmarkWalk(filePath string, b *testing.B) {
 
 func benchmarkWalkPath(filePath string, b *testing.B) {
 	words := loadWords(filePath)
-	if len(words) == 0 {
-		panic("did not load words")
-	}
 	tree := radixtree.New()
 	for _, w := range words {
 		tree.Put(w, w)
@@ -191,6 +188,10 @@ func loadWords(wordsFile string) []string {
 
 	if err := scanner.Err(); err != nil {
 		panic(err)
+	}
+
+	if len(words) == 0 {
+		panic("did not load words")
 	}
 
 	return words

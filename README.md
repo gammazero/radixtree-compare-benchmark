@@ -11,7 +11,7 @@ make
 ## Conclusions
 Radix tree implementations have better performance, in memory and time when compared with a trie, for data sets where many intermediate nodes can be compressed into prefix data.  If the data cannot be compressed (no common prefixes), then the trie and radix tree are equivalent, with a slight advantage to the trie for simplicity and because it does not create any compressed nodes when building the tree.
 
-Of these implementations, only the gammazero and goradix implementations provide a `WalkPath` API that allows finding all keys from the root down from a given key, as well as have zero allocations for all read APIs.
+Of these implementations, only the gammazero and goradix implementations have zero allocations for all read APIs.
 
 ## Benchmark Results
 
@@ -67,48 +67,56 @@ BenchmarkGoRadixHSKWalkPath-8          1287      952200 ns/op           0 B/op  
 BenchmarkGoRadixPutWithExisting-8   2914098       450.1 ns/op         161 B/op         4 allocs/op
 ```
 
-Implementation: https://github.com/dghubble/trie
+Implementation: https://github.com/dghubble/trie v0.0.0-20210609182954-9a58e577d803
 ```
 go test -bench=Dghubble -run=xx
 goos: linux
 goarch: amd64
 pkg: github.com/gammazero/radixtree-compare-benchmark
 cpu: Intel(R) Core(TM) i7-8565U CPU @ 1.80GHz
-BenchmarkDghubbleWordsPut-8              26    44399682 ns/op    34087599 B/op    668808 allocs/op
-BenchmarkDghubbleWordsGet-8             100    10723301 ns/op           0 B/op         0 allocs/op
-BenchmarkDghubbleWordsWalk-8             52    21354546 ns/op     2388220 B/op    233697 allocs/op
-BenchmarkDghubbleWeb2aPut-8              15    75496998 ns/op    71419068 B/op   1258426 allocs/op
-BenchmarkDghubbleWeb2aGet-8             100    11418684 ns/op           0 B/op         0 allocs/op
-BenchmarkDghubbleWeb2aWalk-8             28    42157352 ns/op     5852674 B/op    442357 allocs/op
-BenchmarkDghubbleUUIDsPut-8               2   598843178 ns/op   585421824 B/op   9658527 allocs/op
-BenchmarkDghubbleUUIDsGet-8            4461      266545 ns/op           0 B/op         0 allocs/op
-BenchmarkDghubbleUUIDsWalk-8           2434      488783 ns/op       42018 B/op      6724 allocs/op
-BenchmarkDghubbleHSKPut-8              1114     1152263 ns/op      732379 B/op     15975 allocs/op
-BenchmarkDghubbleHSKGet-8              4542      266464 ns/op           0 B/op         0 allocs/op
-BenchmarkDghubbleHSKWalk-8             2451      487336 ns/op       42023 B/op      6724 allocs/op
-BenchmarkDghubblePutWithExisting-8  4737061       281.7 ns/op          70 B/op         2 allocs/op
+BenchmarkDghubbleWordsPut-8              26    44265471 ns/op    34087820 B/op    668809 allocs/op
+BenchmarkDghubbleWordsGet-8             100    10865470 ns/op           0 B/op         0 allocs/op
+BenchmarkDghubbleWordsWalk-8             54    21330822 ns/op     2388184 B/op    233697 allocs/op
+BenchmarkDghubbleWordsWalkPath-8         91    12453992 ns/op           0 B/op         0 allocs/op
+BenchmarkDghubbleWeb2aPut-8              14    75036416 ns/op    71419149 B/op   1258426 allocs/op
+BenchmarkDghubbleWeb2aGet-8             100    11510034 ns/op           0 B/op         0 allocs/op
+BenchmarkDghubbleWeb2aWalk-8             27    41392222 ns/op     5852586 B/op    442357 allocs/op
+BenchmarkDghubbleWeb2aWalkPath-8         86    12976935 ns/op           0 B/op         0 allocs/op
+BenchmarkDghubbleUUIDsPut-8               2   593092064 ns/op   585421824 B/op   9658527 allocs/op
+BenchmarkDghubbleUUIDsGet-8              13    89637727 ns/op           0 B/op         0 allocs/op
+BenchmarkDghubbleUUIDsWalk-8              3   393708701 ns/op    79925456 B/op   3250643 allocs/op
+BenchmarkDghubbleUUIDsWalkPath-8         12    95190883 ns/op           0 B/op         0 allocs/op
+BenchmarkDghubbleHSKPut-8              1095     1171249 ns/op      732367 B/op     15975 allocs/op
+BenchmarkDghubbleHSKGet-8              4311      267976 ns/op           0 B/op         0 allocs/op
+BenchmarkDghubbleHSKWalk-8             2433      490514 ns/op       42103 B/op      6724 allocs/op
+BenchmarkDghubbleHSKWalkPath-8         3812      306578 ns/op           0 B/op         0 allocs/op
+BenchmarkDghubblePutWithExisting-8  4839458       258.6 ns/op          70 B/op         2 allocs/op
 ```
 
-Implementation: https://github.com/plar/go-adaptive-radix-tree v1.0.1
+Implementation: https://github.com/plar/go-adaptive-radix-tree v1.0.4
 ```
 go test -bench=Plar -run=xx
 goos: linux
 goarch: amd64
 pkg: github.com/gammazero/radixtree-compare-benchmark
 cpu: Intel(R) Core(TM) i7-8565U CPU @ 1.80GHz
-BenchmarkPlarWordsPut-8                  26    40974807 ns/op    16381322 B/op    568741 allocs/op
-BenchmarkPlarWordsGet-8                  80    13257882 ns/op           0 B/op         0 allocs/op
-BenchmarkPlarWordsWalk-8                486     2344110 ns/op          40 B/op         2 allocs/op
-BenchmarkPlarWeb2aPut-8                  40    31399233 ns/op    13023783 B/op    427283 allocs/op
-BenchmarkPlarWeb2aGet-8                 100    10653022 ns/op           0 B/op         0 allocs/op
-BenchmarkPlarWeb2aWalk-8                630     1865313 ns/op          40 B/op         2 allocs/op
-BenchmarkPlarUUIDsPut-8                  20    61307567 ns/op    18838776 B/op    547647 allocs/op
-BenchmarkPlarUUIDsGet-8                1866      621580 ns/op           0 B/op         0 allocs/op
-BenchmarkPlarUUIDsWalk-8               9632      122398 ns/op          40 B/op         2 allocs/op
-BenchmarkPlarHSKPut-8                   675     1889763 ns/op      788260 B/op     27521 allocs/op
-BenchmarkPlarHSKGet-8                  1844      609338 ns/op           0 B/op         0 allocs/op
-BenchmarkPlarHSKWalk-8                10000      118957 ns/op          40 B/op         2 allocs/op
-BenchmarkPlarPutWithExisting-8      2977252       454.7 ns/op         127 B/op         6 allocs/op
+BenchmarkPlarWordsPut-8                  27    38648884 ns/op    15003037 B/op    519092 allocs/op
+BenchmarkPlarWordsGet-8                  92    12217374 ns/op           0 B/op         0 allocs/op
+BenchmarkPlarWordsWalk-8                510     2259355 ns/op          40 B/op         2 allocs/op
+BenchmarkPlarWordsWalkPath-8             69    16961941 ns/op           0 B/op         0 allocs/op
+BenchmarkPlarWeb2aPut-8                  43    29529492 ns/op    11903951 B/op    387564 allocs/op
+BenchmarkPlarWeb2aGet-8                 123     9602343 ns/op           0 B/op         0 allocs/op
+BenchmarkPlarWeb2aWalk-8                660     1881728 ns/op          40 B/op         2 allocs/op
+BenchmarkPlarWeb2aWalkPath-8            120    10627817 ns/op           0 B/op         0 allocs/op
+BenchmarkPlarUUIDsPut-8                  26    47339884 ns/op    17575683 B/op    485056 allocs/op
+BenchmarkPlarUUIDsGet-8                  54    22727794 ns/op           0 B/op         0 allocs/op
+BenchmarkPlarUUIDsWalk-8                493     2390030 ns/op          40 B/op         2 allocs/op
+BenchmarkPlarUUIDsWalkPath-8             55    21811770 ns/op           0 B/op         0 allocs/op
+BenchmarkPlarHSKPut-8                   847     1403741 ns/op      715581 B/op     24502 allocs/op
+BenchmarkPlarHSKGet-8                  2779      466212 ns/op           0 B/op         0 allocs/op
+BenchmarkPlarHSKWalk-8                10000      112470 ns/op          40 B/op         2 allocs/op
+BenchmarkPlarHSKWalkPath-8             2509      492133 ns/op           0 B/op         0 allocs/op
+BenchmarkPlarPutWithExisting-8      3267259       406.5 ns/op         115 B/op         5 allocs/op
 ```
 
 Generally a radixtree is built once and searched many times.  That makes the `Get` and `Walk` operations the most important; how fast can an item be looked up by its key and how fast can the tree be iterated. Here are only those values from above.
@@ -139,21 +147,29 @@ BenchmarkGoRadixWeb2aWalkPath-8          92    13049952 ns/op           0 B/op  
 BenchmarkGoRadixUUIDsWalkPath-8          31    36517267 ns/op           0 B/op         0 allocs/op
 BenchmarkGoRadixHSKWalkPath-8          1287      952200 ns/op           0 B/op         0 allocs/op
 
-BenchmarkDghubbleWordsGet-8             100    10723301 ns/op           0 B/op         0 allocs/op
-BenchmarkDghubbleWeb2aGet-8             100    11418684 ns/op           0 B/op         0 allocs/op
-BenchmarkDghubbleUUIDsGet-8            4461      266545 ns/op           0 B/op         0 allocs/op
-BenchmarkDghubbleHSKGet-8              4542      266464 ns/op           0 B/op         0 allocs/op
-BenchmarkDghubbleWordsWalk-8             52    21354546 ns/op     2388220 B/op    233697 allocs/op
-BenchmarkDghubbleWeb2aWalk-8             28    42157352 ns/op     5852674 B/op    442357 allocs/op
-BenchmarkDghubbleUUIDsWalk-8           2434      488783 ns/op       42018 B/op      6724 allocs/op
-BenchmarkDghubbleHSKWalk-8             2451      487336 ns/op       42023 B/op      6724 allocs/op
+BenchmarkDghubbleWordsGet-8             100    10865470 ns/op           0 B/op         0 allocs/op
+BenchmarkDghubbleWeb2aGet-8             100    11510034 ns/op           0 B/op         0 allocs/op
+BenchmarkDghubbleUUIDsGet-8              13    89637727 ns/op           0 B/op         0 allocs/op
+BenchmarkDghubbleHSKGet-8              4311      267976 ns/op           0 B/op         0 allocs/op
+BenchmarkDghubbleWordsWalk-8             54    21330822 ns/op     2388184 B/op    233697 allocs/op
+BenchmarkDghubbleWeb2aWalk-8             27    41392222 ns/op     5852586 B/op    442357 allocs/op
+BenchmarkDghubbleUUIDsWalk-8              3   393708701 ns/op    79925456 B/op   3250643 allocs/op
+BenchmarkDghubbleHSKWalk-8             2433      490514 ns/op       42103 B/op      6724 allocs/op
+BenchmarkDghubbleWordsWalkPath-8         91    12453992 ns/op           0 B/op         0 allocs/op
+BenchmarkDghubbleWeb2aWalkPath-8         86    12976935 ns/op           0 B/op         0 allocs/op
+BenchmarkDghubbleUUIDsWalkPath-8         12    95190883 ns/op           0 B/op         0 allocs/op
+BenchmarkDghubbleHSKWalkPath-8         3812      306578 ns/op           0 B/op         0 allocs/op
 
-BenchmarkPlarWordsGet-8                  80    13257882 ns/op           0 B/op         0 allocs/op
-BenchmarkPlarWeb2aGet-8                 100    10653022 ns/op           0 B/op         0 allocs/op
-BenchmarkPlarUUIDsGet-8                1866      621580 ns/op           0 B/op         0 allocs/op
-BenchmarkPlarHSKGet-8                  1844      609338 ns/op           0 B/op         0 allocs/op
-BenchmarkPlarWordsWalk-8                486     2344110 ns/op          40 B/op         2 allocs/op
-BenchmarkPlarWeb2aWalk-8                630     1865313 ns/op          40 B/op         2 allocs/op
-BenchmarkPlarUUIDsWalk-8               9632      122398 ns/op          40 B/op         2 allocs/op
-BenchmarkPlarHSKWalk-8                10000      118957 ns/op          40 B/op         2 allocs/op
+BenchmarkPlarWordsGet-8                  92    12217374 ns/op           0 B/op         0 allocs/op
+BenchmarkPlarWeb2aGet-8                 123     9602343 ns/op           0 B/op         0 allocs/op
+BenchmarkPlarUUIDsGet-8                  54    22727794 ns/op           0 B/op         0 allocs/op
+BenchmarkPlarHSKGet-8                  2779      466212 ns/op           0 B/op         0 allocs/op
+BenchmarkPlarWordsWalk-8                510     2259355 ns/op          40 B/op         2 allocs/op
+BenchmarkPlarWeb2aWalk-8                660     1881728 ns/op          40 B/op         2 allocs/op
+BenchmarkPlarUUIDsWalk-8                493     2390030 ns/op          40 B/op         2 allocs/op
+BenchmarkPlarHSKWalk-8                10000      112470 ns/op          40 B/op         2 allocs/op
+BenchmarkPlarWordsWalkPath-8             69    16961941 ns/op           0 B/op         0 allocs/op
+BenchmarkPlarWeb2aWalkPath-8            120    10627817 ns/op           0 B/op         0 allocs/op
+BenchmarkPlarUUIDsWalkPath-8             55    21811770 ns/op           0 B/op         0 allocs/op
+BenchmarkPlarHSKWalkPath-8             2509      492133 ns/op           0 B/op         0 allocs/op
 ```

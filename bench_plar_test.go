@@ -25,6 +25,10 @@ func BenchmarkPlarWordsWalk(b *testing.B) {
 	benchmarkPlarWalk(wordsPath, b)
 }
 
+func BenchmarkPlarWordsWalkPath(b *testing.B) {
+	benchmarkPlarWalkPath(wordsPath, b)
+}
+
 func BenchmarkPlarWeb2aPut(b *testing.B) {
 	benchmarkPlarPut(web2aPath, b)
 }
@@ -35,6 +39,10 @@ func BenchmarkPlarWeb2aGet(b *testing.B) {
 
 func BenchmarkPlarWeb2aWalk(b *testing.B) {
 	benchmarkPlarWalk(web2aPath, b)
+}
+
+func BenchmarkPlarWeb2aWalkPath(b *testing.B) {
+	benchmarkPlarWalkPath(web2aPath, b)
 }
 
 func BenchmarkPlarUUIDsPut(b *testing.B) {
@@ -49,6 +57,10 @@ func BenchmarkPlarUUIDsWalk(b *testing.B) {
 	benchmarkPlarWalk(uuidsPath, b)
 }
 
+func BenchmarkPlarUUIDsWalkPath(b *testing.B) {
+	benchmarkPlarWalkPath(uuidsPath, b)
+}
+
 func BenchmarkPlarHSKPut(b *testing.B) {
 	benchmarkPlarPut(hskPath, b)
 }
@@ -59,6 +71,10 @@ func BenchmarkPlarHSKGet(b *testing.B) {
 
 func BenchmarkPlarHSKWalk(b *testing.B) {
 	benchmarkPlarWalk(hskPath, b)
+}
+
+func BenchmarkPlarHSKWalkPath(b *testing.B) {
+	benchmarkPlarWalkPath(hskPath, b)
 }
 
 func BenchmarkPlarPutWithExisting(b *testing.B) {
@@ -120,6 +136,29 @@ func benchmarkPlarWalk(filePath string, b *testing.B) {
 		}, gart.TraverseLeaf)
 	}
 	if count != len(words) {
+		panic("wrong count")
+	}
+}
+
+func benchmarkPlarWalkPath(filePath string, b *testing.B) {
+	words := loadWordsBytes(filePath)
+	tree := gart.New()
+	for _, w := range words {
+		tree.Insert(w, w)
+	}
+	b.ResetTimer()
+	b.ReportAllocs()
+	var count int
+	for n := 0; n < b.N; n++ {
+		count = 0
+		for _, w := range words {
+			tree.ForEachPrefix(w, func(n gart.Node) bool {
+				count++
+				return true
+			})
+		}
+	}
+	if count < len(words) {
 		panic("wrong count")
 	}
 }
